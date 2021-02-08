@@ -1,0 +1,23 @@
+<%- include('header') -%>
+<div class="form">
+  <h1 class="form-header">Undirskriftarlisti</h1>
+  <div class="form-inner">
+    <form method="get" action="/get" >
+      <label>
+        Nafn:
+        <input type="text" name="data">
+      </label>
+      <label>
+        Kennitala:
+        <input type="number" name="data">
+      </label>
+      <label>
+        Athugasemd:
+        <input type="text" name="data">
+      </label>
+      <button>Senda</button>
+    </form>
+  </div>
+</div> 
+
+<%- include('footer') -%>
