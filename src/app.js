@@ -1,9 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { router as r } from './form.js';
-
-const app = express();
 dotenv.config();
+
+import { query } from './db.js'
+const app = express();
 
 const viewsPath = new URL('./views', import.meta.url).pathname;
 
@@ -11,8 +12,14 @@ app.set('./views', viewsPath);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.static('src'));
+app.use(express.urlencoded({ extended: true }));
 app.use('/', r);
 
+function isInvalid(field, errors) {
+  return Boolean(errors.find(i => i.param === field));
+}
+
+app.locals.isInvalid = isInvalid;
 
 const {
   PORT: port = 3000,

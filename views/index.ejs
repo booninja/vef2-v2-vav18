@@ -2,21 +2,37 @@
 <div class="form">
   <h1 class="form-header">Undirskriftarlisti</h1>
   <div class="form-inner">
-    <form method="get" action="/get" >
+    <form method="post" action="/" enctype="application/x-www-form-urlencoded" >
       <label>
-        Nafn:
-        <input type="text" name="data">
+        Nafn*
+        <input required type="text" name="name" value="<% name %>" >
       </label>
       <label>
-        Kennitala:
-        <input type="number" name="data">
+        Kennitala*
+        <input required type="text" name="nationalId" value="<% nationalId %>">
       </label>
       <label>
         Athugasemd:
-        <input type="text" name="data">
+        <textarea required type="text" name="comment" value="<% comment %>"></textarea>
       </label>
-      <button>Senda</button>
+      <label>
+        <input type="checkbox" name="anonymous" >
+        <p>Ekki birta nafn á lista</p>
+      </label>
+
+      <button>Skrifa undir</button>
     </form>
+  </div>
+</div> <div class="results">
+  <h1 class="results-header">Undirskriftarlisti</h1>
+  <div class="results-inner">
+
+    <% result.forEach(( item ) => { %>
+      <p> <%= item.signed %></p>
+      <p> <%= item.name %></p>
+      <p> <%= item.nationalid %></p>
+      <p> <%= item.comment %></p>
+    <% }) %>
   </div>
 </div> 
 
