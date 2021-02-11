@@ -1,0 +1,61 @@
+@import './config.scss';
+
+.form {
+    max-width: $max-width;
+    width: 100%;
+    margin: 0 auto;
+    border-bottom: 1px #888 dotted;
+
+    &-row{
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 1.375rem;
+        justify-content: center;
+        margin-bottom: 1rem;
+        margin-left: -($gutter / 2);
+        margin-right: -($gutter / 2);
+
+        .input {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        textarea {
+            flex: 1;
+            min-height: 6rem;
+        }
+
+        p {
+            max-width: 150px;
+            width: 100%;
+        }
+
+    }
+
+    &-check{
+        margin: 1rem;
+        transform: scale(1.5);
+        p {
+            max-width: 200px ;
+        }
+    }
+
+    button {
+        
+        border: 1px solid #888;
+        border-radius: 3px;
+        padding: 0.5rem;
+        background-color: #fff;
+        transition: background-color ease-in 300ms;
+        
+        &:hover {
+            background-color: #bbb;
+          }
+    }
+
+    &-errorMessage {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}

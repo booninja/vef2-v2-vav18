@@ -26,7 +26,6 @@ export async function query(q, v = []){
 
   try {
     const result = await client.query(q, v);
-    // console.log('rows :>> ', result.rows);
     return result.rows;
   } catch (e) {
     console.error('Error selecting', e);

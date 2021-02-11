@@ -10,6 +10,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.9.2",
     "json-loader": "^0.5.7",
+    "moment": "^2.29.1",
     "pg": "^8.5.1",
     "stylelint-config-standard": "^20.0.0",
     "xss": "^1.0.8"
@@ -28,12 +29,13 @@
   "scripts": {
     "test": "concurrently npm:lint-scss npm:lint-css npm:eslint",
     "browser-sync": "browser-sync start --server --files index.ejs styles.css",
-    "sass": "node-sass --source-map-embed  ./public/styles.scss ./public/styles.css",
-    "sass-watch": "node-sass --source-map-embed --watch *.scss --recursive styles.css",
+    "sass": "node-sass --source-map-embed  styles.scss ./public/styles.css",
+    "sass-watch": "node-sass --source-map-embed --watch styles.scss --recursive ./public/styles.css",
     "lint-css": "stylelint ./public/styles.css",
     "lint-scss": "stylelint styles.scss --syntax scss",
     "eslint": "eslint *.js **/*.js --fix",
     "nodemon": "nodemon ./src/app.js",
+    "dev": "concurrently npm:nodemon npm:sass npm:sass-watch",
     "start": "node ./src/app.js"
   },
   "repository": {

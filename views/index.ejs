@@ -1,39 +1,55 @@
 <%- include('header') -%>
+<main>
 <div class="form">
-  <h1 class="form-header">Undirskriftarlisti</h1>
-  <div class="form-inner">
-    <form method="post" action="/" enctype="application/x-www-form-urlencoded" >
-      <label>
-        Nafn*
-        <input required type="text" name="name" value="<% name %>" >
+    <form class="form-signup" method="post" action="/" enctype="application/x-www-form-urlencoded" >
+      <label class="form-row">
+        <p>Nafn*</p>
+        <input class="input" type="text" name="name" value="<% name %>" >
       </label>
-      <label>
-        Kennitala*
-        <input required type="text" name="nationalId" value="<% nationalId %>">
+      <label class="form-row">
+        <p>Kennitala*</p>
+        <input class="input" type="text" name="nationalId" value="<% nationalId %>">
       </label>
-      <label>
-        Athugasemd:
-        <textarea required type="text" name="comment" value="<% comment %>"></textarea>
+      <label class="form-row">
+        <p>Athugasemd:</p>
+        <textarea class="input" type="text" name="comment" value="<% comment %>"></textarea>
       </label>
-      <label>
-        <input type="checkbox" name="anonymous" >
+      <label class="form-row">
+        <input class="form-check" type="checkbox" name="anonymous">
         <p>Ekki birta nafn á lista</p>
       </label>
-
-      <button>Skrifa undir</button>
+      
+      <div class="form-errorMessages">
+        <% if (errors.length > 0) { %>
+          <h2>Vandræði við að senda umsókn:</h2>
+          <ul class="errors">
+            <% errors.forEach((error) => { %>
+              <% console.log(error) %>
+              <li class="error"><label  ><%= error %></label></li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </div>
+      <button><h2>Skrifa undir</h2></button>
     </form>
   </div>
-</div> <div class="results">
-  <h1 class="results-header">Undirskriftarlisti</h1>
-  <div class="results-inner">
-
-    <% result.forEach(( item ) => { %>
-      <p> <%= item.signed %></p>
-      <p> <%= item.name %></p>
-      <p> <%= item.nationalid %></p>
-      <p> <%= item.comment %></p>
-    <% }) %>
-  </div>
 </div> 
-
+<div class="results">
+  <h2 class="results-header">Undirskriftir</h2>
+  <table class="results-table">
+    <tr>
+      <th>Dags</th>
+      <th>Nafn</th>
+      <th>Athugasemd</th>
+    </tr>
+    <% result.forEach(( item ) => { %>
+    <tr>
+      <td> <%= locals.formatDate(item.signed) %></td>
+      <td> <%= item.name %></td>
+      <td> <%= item.comment %></td>
+    </tr>
+    <% }) %>
+  </table>
+</div> 
+</main>
 <%- include('footer') -%>

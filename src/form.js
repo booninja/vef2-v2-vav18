@@ -8,75 +8,99 @@ export const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
 
 const nationalIdPattern = '^[0-9]{6}-?[0-9]{4}$';
-
+let result = ''
 function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
 async function index(req, res)  {
-  const result = await select();
-  console.log('result: >>', result);
-  const name = '', comment='', nationalId = '';
-  res.render('index', { result, name, comment, nationalId} );
+  result = await select();
+  
+  const data = {
+    result, 
+    name: '', 
+    comment: '', 
+    nationalId: '',
+    nationalIdPattern,
+    errors: []
+  }
+
+  res.render('index', data );
 }
 
+const validations = [
+  body('name')
+    .isLength({ min: 1 })
+    .withMessage('Nafn má ekki vera tómt'),
+  body('nationalId')
+    .isLength({ min: 1 })
+    .withMessage('Kennitala má ekki vera tóm'),
+  body('nationalId')
+    .matches(new RegExp(nationalIdPattern))
+    .withMessage('Kennitala verður að vera á formi 000000-0000 eða 0000000000'),
+];
 
-router.post(
-    '/',
-  
-    // Þetta er bara validation, ekki sanitization
-    body('name')
-      .isLength({ min: 1 })
-      .withMessage('Nafn má ekki vera tómt'),
-    body('nationalId')
-      .isLength({ min: 1 })
-      .withMessage('Kennitala má ekki vera tóm'),
-    body('comment')
-      .isLength({ min: 1 })
-      .withMessage('Netfang má ekki vera tómt'),
-    body('nationalId')
-      .matches(new RegExp(nationalIdPattern))
-      .withMessage('Kennitala verður að vera á formi 000000-0000 eða 0000000000'),
-  
-    (req, res, next) => {
-      const {
-        name = '',
-        comment = '',
-        nationalId = '',
-      } = req.body;
-  
-      const errors = validationResult(req);
-  
-      if (!errors.isEmpty()) {
-        const errorMessages = errors.array().map(i => i.msg);
-        return catchErrors(index);
-      }
-  
-      return next();
-    },
+const sanitizations = [
     /* Nú sanitizeum við gögnin, þessar aðgerðir munu breyta gildum í body.req */
     // Fjarlægja whitespace frá byrjun og enda
     // „Escape“ á gögn, breytir stöfum sem hafa merkingu í t.d. HTML í entity
     // t.d. < í &lt;
     body('name').trim().escape(),
-    body('email').normalizeEmail(),
+    body('comment').trim().escape(),
   
     // Fjarlægjum - úr kennitölu, þó svo við leyfum í innslátt þá viljum við geyma
     // á normalizeruðu formi (þ.e.a.s. allar geymdar sem 10 tölustafir)
     // Hér gætum við viljað breyta kennitölu í heiltölu (int) en... það myndi
     // skemma gögnin okkar, því kennitölur geta byrjað á 0
-    body('nationalId').blacklist('-'),
+    body('nationalId').blacklist('-')
+];
+
+async function showErrors(req, res, next) {
+  const {
+    name = '',
+    comment = '',
+    nationalId = '',
+  } = req.body;
   
-     async (req, res) => {
-  
-      const {
-        name,
-        comment,
-        nationalId,
-      } = req.body;
-      await insert({ name, comment, nationalId });
-      return catchErrors(index);
-    },
-  );
+  const data = {
+    result, 
+    name: '', 
+    comment: '', 
+    nationalId: '',
+    nationalIdPattern,
+  }
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(i => i.msg);
+    data.errors = errorMessages;
+    return res.render('index', data);
+  }
+
+  return next();
+}
+
+async function postForm(req, res){
+  const {
+    name,
+    comment,
+    nationalId,
+  } = req.body;
+
+  await insert({ name, comment, nationalId});
+
+  return res.redirect('/');
+}
+
 
 router.get('/', catchErrors(index));
+router.post('/', 
+  validations,
+  // Ef form er ekki í lagi, birtir upplýsingar um það
+  showErrors,
+  // Öll gögn í lagi, hreinsa þau
+  sanitizations,
+  // Senda gögn í gagnagrunn
+  catchErrors(postForm)
+);

@@ -1,0 +1,22 @@
+@import './config.scss';
+
+.results {
+    &-header {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: $gutter;
+    }
+
+    &-table {
+        display: grid;
+        grid-template-columns: 1f 1f 3f;
+        border-top: 1px solid rgba(0, 0, 0, 0.8);
+        border-right: 1px solid rgba(0, 0, 0, 0.8);;
+        td, th, tr {
+            padding: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+            border-left: 1px solid rgba(0, 0, 0, 0.8);
+        }
+
+    }
+}

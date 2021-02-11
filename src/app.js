@@ -1,9 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { router as r } from './form.js';
+import {formatDate} from './formatDate.js';
 dotenv.config();
 
-import { query } from './db.js'
 const app = express();
 
 const viewsPath = new URL('./views', import.meta.url).pathname;
@@ -20,7 +20,7 @@ function isInvalid(field, errors) {
 }
 
 app.locals.isInvalid = isInvalid;
-
+app.locals.formatDate = formatDate
 const {
   PORT: port = 3000,
 } = process.env;
