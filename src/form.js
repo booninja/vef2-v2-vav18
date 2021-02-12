@@ -6,9 +6,8 @@ import { insert, select } from './db.js';
 export const router = express.Router();
 
 router.use(express.urlencoded({ extended: true }));
-
+let result = '';
 const nationalIdPattern = '^[0-9]{6}-?[0-9]{4}$';
-let result = ''
 function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
@@ -22,6 +21,7 @@ async function index(req, res)  {
     comment: '', 
     nationalId: '',
     nationalIdPattern,
+    anonymous: false,
     errors: []
   }
 
@@ -57,17 +57,19 @@ const sanitizations = [
 
 async function showErrors(req, res, next) {
   const {
-    name = '',
-    comment = '',
-    nationalId = '',
+    name,
+    comment,
+    nationalId,
+    anonymous,
   } = req.body;
   
   const data = {
     result, 
-    name: '', 
-    comment: '', 
-    nationalId: '',
+    name, 
+    comment, 
+    nationalId,
     nationalIdPattern,
+    anonymous
   }
 
   const errors = validationResult(req);
@@ -86,9 +88,20 @@ async function postForm(req, res){
     name,
     comment,
     nationalId,
+    anonymous
   } = req.body;
-
-  await insert({ name, comment, nationalId});
+  // let newAnonymous;
+  // if(anonymous){
+  //   newAnonymous = true;
+  // } else { 
+  //   newAnonymous = false;
+  // }
+  console.log('hvað er anonymous? ', anonymous)
+  if(anonymous === undefined){
+    await insert({ name, comment, nationalId, anonymous: false});
+  } else {
+    await insert({ name, comment, nationalId, anonymous});
+  }
 
   return res.redirect('/');
 }

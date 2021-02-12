@@ -1,6 +1,7 @@
 @import './config.scss';
 
 .results {
+    margin: $gutter 0;
     &-header {
         text-align: center;
         font-size: 2.5rem;

@@ -2,21 +2,22 @@
 <main>
 <div class="form">
     <form class="form-signup" method="post" action="/" enctype="application/x-www-form-urlencoded" >
-      <label class="form-row">
-        <p>Nafn*</p>
-        <input class="input" type="text" name="name" value="<% name %>" >
+      <label class="form-row<%= locals.isInvalid('name', errors) ?  ' form--invalid' : ' ' %>">
+        <p for="name">Nafn*</p>
+        <input  class="input" id="name" type="text" name="name" value="<% name %>" >
       </label>
-      <label class="form-row">
-        <p>Kennitala*</p>
-        <input class="input" type="text" name="nationalId" value="<% nationalId %>">
+      <label class="form-row<%= locals.isInvalid('nationalId', errors) ?  ' form--invalid' : ' ' %>">
+        <% console.log('invalid', (locals.isInvalid('nationalId', errors) ?  ' ' : ' form--invalid') )  %>
+        <p for="nationalId">Kennitala*</p>
+        <input class="input" id="nationalId"type="text" name="nationalId" value="<% nationalId %>">
       </label>
       <label class="form-row">
         <p>Athugasemd:</p>
         <textarea class="input" type="text" name="comment" value="<% comment %>"></textarea>
       </label>
       <label class="form-row">
-        <input class="form-check" type="checkbox" name="anonymous">
-        <p>Ekki birta nafn á lista</p>
+        <input class="form-check" type="checkbox" name="anonymous" value="true">
+        <p class="">Ekki birta nafn á lista </p>
       </label>
       
       <div class="form-errorMessages">
@@ -30,12 +31,15 @@
           </ul>
         <% } %>
       </div>
-      <button><h2>Skrifa undir</h2></button>
+      <div class="form-button">
+        <button><h2>Skrifa undir</h2></button>
+      </div>
     </form>
   </div>
 </div> 
 <div class="results">
   <h2 class="results-header">Undirskriftir</h2>
+  <% if (result.length > 0) { %>
   <table class="results-table">
     <tr>
       <th>Dags</th>
@@ -45,11 +49,18 @@
     <% result.forEach(( item ) => { %>
     <tr>
       <td> <%= locals.formatDate(item.signed) %></td>
-      <td> <%= item.name %></td>
-      <td> <%= item.comment %></td>
+      <% if (item.anonymous) { %>
+        <td>anonymous</td>
+      <% } else   { %>
+        <td><%= item.name %></td>
+      <% } %>
+      <td><%= item.comment %></td>
     </tr>
     <% }) %>
   </table>
+  <% } else { %> 
+    <h3>Það eru engar undirskriftir</h3>
+  <% } %> 
 </div> 
 </main>
 <%- include('footer') -%>

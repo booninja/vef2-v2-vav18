@@ -6,6 +6,11 @@
     margin: 0 auto;
     border-bottom: 1px #888 dotted;
 
+    &--invalid {
+        border-color: #855;
+        background-color: #fbb;
+    }
+
     &-row{
         display: flex;
         flex-wrap: wrap;
@@ -18,6 +23,8 @@
         .input {
             max-width: 800px;
             width: 100%;
+            padding: 0.5em;
+            border-radius: 0.5em;
         }
         
         textarea {
@@ -36,26 +43,48 @@
         margin: 1rem;
         transform: scale(1.5);
         p {
-            max-width: 200px ;
+            max-width: 200px;
+            margin: 0.5rem 0;
         }
     }
 
-    button {
-        
-        border: 1px solid #888;
-        border-radius: 3px;
-        padding: 0.5rem;
-        background-color: #fff;
-        transition: background-color ease-in 300ms;
-        
-        &:hover {
-            background-color: #bbb;
-          }
+    &-button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: $gutter*2;
+
+        button {
+            margin: 0 auto;
+            border: 1px solid #888;
+            border-radius: 3px;
+            padding: 1rem;
+            background-color: #fff;
+            transition: background-color ease-in 300ms;
+            
+            &:hover {
+                background-color: #bbb;
+              }
+        }
+        h2 {
+            font-size: 2rem;
+        }
     }
 
-    &-errorMessage {
+    &-errorMessages {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        margin-top: $gutter*2;
+
+        .errors {
+            margin-bottom: $gutter*2;
+        }
+        h2 {
+            margin: 0 auto;
+        }
+        ul {
+            margin: 0 auto;
+        }
     }
 }

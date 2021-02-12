@@ -33,6 +33,10 @@ main { /* stylelint-disable-line */
   max-width: $max-width;
 }
 
+h1, h2, h3 {
+  font-family: $font-heading;
+}
+
 @import './styles/header';
 @import './styles/signup';
 @import './styles/list';
