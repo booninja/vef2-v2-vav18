@@ -2,18 +2,17 @@
 <main>
 <div class="form">
     <form class="form-signup" method="post" action="/" enctype="application/x-www-form-urlencoded" >
-      <label class="form-row<%= locals.isInvalid('name', errors) ?  ' form--invalid' : ' ' %>">
+      <label class="form-row<%= locals.isInvalid('name', errors) ? ' form--invalid' : ' ' %>">
         <p for="name">Nafn*</p>
         <input  class="input" id="name" type="text" name="name" value="<% name %>" >
       </label>
       <label class="form-row<%= locals.isInvalid('nationalId', errors) ?  ' form--invalid' : ' ' %>">
-        <% console.log('invalid', (locals.isInvalid('nationalId', errors) ?  ' ' : ' form--invalid') )  %>
         <p for="nationalId">Kennitala*</p>
         <input class="input" id="nationalId"type="text" name="nationalId" value="<% nationalId %>">
       </label>
-      <label class="form-row">
-        <p>Athugasemd:</p>
-        <textarea class="input" type="text" name="comment" value="<% comment %>"></textarea>
+      <label class="form-row<%= locals.isInvalid('nationalId', errors) ?  ' form--invalid' : ' ' %>">
+        <p for="comment">Athugasemd:</p>
+        <textarea class="input" id="comment" type="text" name="comment" value="<% comment %>"></textarea>
       </label>
       <label class="form-row">
         <input class="form-check" type="checkbox" name="anonymous" value="true">
@@ -25,8 +24,7 @@
           <h2>Vandræði við að senda umsókn:</h2>
           <ul class="errors">
             <% errors.forEach((error) => { %>
-              <% console.log(error) %>
-              <li class="error"><label  ><%= error %></label></li>
+              <li class="error"><label  ><%= error.msg %></label></li>
             <% }); %>
           </ul>
         <% } %>
@@ -59,7 +57,7 @@
     <% }) %>
   </table>
   <% } else { %> 
-    <h3>Það eru engar undirskriftir</h3>
+    <h3 class="results-none">Það eru engar undirskriftir</h3>
   <% } %> 
 </div> 
 </main>

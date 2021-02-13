@@ -1,90 +1,92 @@
-@import './config.scss';
+@import './config';
 
 .form {
-    max-width: $max-width;
+  margin: 0 auto;
+  max-width: $max-width;
+  width: 100%;
+
+  &--invalid {
+    input { /* stylelint-disable-line */
+      background-color: #fbb;
+      border-color: #855;
+    }
+  }
+
+  &-row {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1.375rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+    margin-left: -($gutter / 2);
+    margin-right: -($gutter / 2);
+
+    .input { /* stylelint-disable-line */
+      border-radius: 0.5em;
+      max-width: 800px;
+      padding: 0.5em;
+      width: 100%;
+    }
+
+    textarea { /* stylelint-disable-line */
+      flex: 1;
+      min-height: 6rem;
+    }
+
+    p { /* stylelint-disable-line */
+      max-width: 150px;
+      width: 100%;
+    }
+  }
+
+  &-check {
+    margin: 1rem;
+    transform: scale(1.5);
+
+    p { /* stylelint-disable-line */
+      margin: 0.5rem 0;
+      max-width: 200px;
+    }
+  }
+
+  &-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $gutter*2;
     width: 100%;
-    margin: 0 auto;
-    border-bottom: 1px #888 dotted;
 
-    &--invalid {
-        border-color: #855;
-        background-color: #fbb;
+    button { /* stylelint-disable-line */
+      background-color: #fff;
+      border: 1px solid #888;
+      border-radius: 3px;
+      margin: 0 auto;
+      padding: 1rem;
+      transition: background-color ease-in 300ms;
+
+      &:hover { /* stylelint-disable-line */
+        background-color: #bbb;
+      }
     }
 
-    &-row{
-        display: flex;
-        flex-wrap: wrap;
-        font-size: 1.375rem;
-        justify-content: center;
-        margin-bottom: 1rem;
-        margin-left: -($gutter / 2);
-        margin-right: -($gutter / 2);
-
-        .input {
-            max-width: 800px;
-            width: 100%;
-            padding: 0.5em;
-            border-radius: 0.5em;
-        }
-        
-        textarea {
-            flex: 1;
-            min-height: 6rem;
-        }
-
-        p {
-            max-width: 150px;
-            width: 100%;
-        }
-
+    h2 { /* stylelint-disable-line */
+      font-size: 2rem;
     }
+  }
 
-    &-check{
-        margin: 1rem;
-        transform: scale(1.5);
-        p {
-            max-width: 200px;
-            margin: 0.5rem 0;
-        }
+  &-errorMessages {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: $gutter*2;
+
+    .errors { /* stylelint-disable-line */
+      margin-bottom: $gutter*2;
     }
-
-    &-button {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-bottom: $gutter*2;
-
-        button {
-            margin: 0 auto;
-            border: 1px solid #888;
-            border-radius: 3px;
-            padding: 1rem;
-            background-color: #fff;
-            transition: background-color ease-in 300ms;
-            
-            &:hover {
-                background-color: #bbb;
-              }
-        }
-        h2 {
-            font-size: 2rem;
-        }
+    h2 { /* stylelint-disable-line */
+      margin: 0 auto;
     }
-
-    &-errorMessages {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-top: $gutter*2;
-
-        .errors {
-            margin-bottom: $gutter*2;
-        }
-        h2 {
-            margin: 0 auto;
-        }
-        ul {
-            margin: 0 auto;
-        }
+    ul { /* stylelint-disable-line */
+      margin: 0 auto;
     }
+  }
 }

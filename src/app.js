@@ -1,7 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { router as r } from './form.js';
-import {formatDate} from './formatDate.js';
+import { formatDate } from './formatDate.js';
+
 dotenv.config();
 
 const app = express();
@@ -17,11 +18,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', r);
 
 function isInvalid(field, errors) {
-  return Boolean(errors.find(i => i.param === field));
+  return Boolean(errors.find((i) => i.param === field));
 }
 
 app.locals.isInvalid = isInvalid;
-app.locals.formatDate = formatDate
+app.locals.formatDate = formatDate;
+
+function notFoundHandler(req, res) {
+  res.status(404).render('error', { title: 'Error', message: '404 Not Found' });
+}
+
+function errorHandler(err, req, res, next) { // eslint-disable-line
+  console.error(err);
+  const title = ' ';
+  const titleMessage = 'Gat ekki skráð!';
+  const message = 'Varstu búinn að skrá þig áður?'
+  res.status(500).render('error', { title, titleMessage, message });
+}
+
+app.use(notFoundHandler);
+app.use(errorHandler);
+
 const {
   PORT: port = 3000,
 } = process.env;

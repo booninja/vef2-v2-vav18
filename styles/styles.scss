@@ -1,4 +1,4 @@
-@import './styles/config';
+@import 'config';
 
 html { /* stylelint-disable-line */
   box-sizing: border-box;
@@ -23,7 +23,7 @@ html { /* stylelint-disable-line */
 }
 
 body { /* stylelint-disable-line */
-  background-color: #ddd;
+  background-color: #ffffee;
   color: #333;
   overflow-x: hidden;
 }
@@ -33,10 +33,12 @@ main { /* stylelint-disable-line */
   max-width: $max-width;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: $font-heading;
 }
 
-@import './styles/header';
-@import './styles/signup';
-@import './styles/list';
+@import 'header';
+@import 'signup';
+@import 'list';
