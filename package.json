@@ -35,6 +35,7 @@
     "eslint": "eslint *.js **/*.js --fix",
     "nodemon": "nodemon ./src/app.js",
     "dev": "concurrently npm:nodemon npm:sass:*",
+    "setup": "node ./src/setup.js",
     "start": "node ./src/app.js"
   },
   "repository": {

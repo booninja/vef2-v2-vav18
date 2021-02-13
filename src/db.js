@@ -29,11 +29,10 @@ export async function query(q, v = []) {
     const result = await client.query(q, v);
     return result.rows;
   } catch (e) {
-    throw e;
+    throw new Error(e);  
   } finally {
     client.release();
   }
-  // return client.end();
 }
 
 export async function insert(data) {

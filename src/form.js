@@ -42,8 +42,8 @@ const validations = [
     .matches(new RegExp(nationalIdPattern))
     .withMessage('Kennitala verður að vera á formi 000000-0000 eða 0000000000'),
   body('athugasemd')
-    .isLength({ max: 400})
-    .withMessage('Athugasemd má að hámarki vera 400 stafir')
+    .isLength({ max: 400 })
+    .withMessage('Athugasemd má að hámarki vera 400 stafir'),
 ];
 
 function sanitizeXss(fieldName) {

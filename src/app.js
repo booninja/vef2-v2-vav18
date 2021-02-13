@@ -25,14 +25,14 @@ app.locals.isInvalid = isInvalid;
 app.locals.formatDate = formatDate;
 
 function notFoundHandler(req, res) {
-  res.status(404).render('error', { title: 'Error', message: '404 Not Found' });
+  res.status(404).render('error', { title: '', titleMessage: '404 Not Found', message: 'Þú virðist hafa villst!' });
 }
 
 function errorHandler(err, req, res, next) { // eslint-disable-line
   console.error(err);
   const title = ' ';
   const titleMessage = 'Gat ekki skráð!';
-  const message = 'Varstu búinn að skrá þig áður?'
+  const message = 'Varstu búinn að skrá þig áður?';
   res.status(500).render('error', { title, titleMessage, message });
 }
 

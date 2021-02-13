@@ -1,5 +1,5 @@
 TRUNCATE TABLE signatures; -- tæmir töflu!
-rsINSERT INTO signatures (name, nationalId, comment, anonymous) VALUES ('Anna Margrét', '0000000005', '', true);
+INSERT INTO signatures (name, nationalId, comment, anonymous) VALUES ('Anna Margrét', '0000000005', '', true);
 INSERT INTO signatures (name, nationalId, comment, anonymous) VALUES ('Anna María', '0000000006', '', false);
 INSERT INTO signatures (name, nationalId, comment, anonymous) VALUES ('Anna Sigríður', '0000000007', '', true);
 INSERT INTO signatures (name, nationalId, comment, anonymous) VALUES ('Arnar Freyr ', '0000000008', '', false);
