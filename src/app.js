@@ -1,13 +1,35 @@
 import express from 'express';
 import dotenv from 'dotenv';
+
+import session from 'express-session';
 import { router as r } from './form.js';
+import { router as admin } from './admin.js';
 import { formatDate } from './formatDate.js';
+import passport from './authentication.js';
 
 dotenv.config();
-
 const app = express();
+const {
+  PORT: port = 3000,
+  SESSION_SECRET: sessionSecret,
+} = process.env;
+
+if (!sessionSecret) {
+  console.error('Add SESSION_SECRET to .env');
+  process.exit(1);
+}
+
+app.use(session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+  maxAge: 30 * 24 * 60 * 1000, // 30 dagar
+}));
 
 const viewsPath = new URL('./views', import.meta.url).pathname;
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.set('./views', viewsPath);
 app.set('view engine', 'ejs');
@@ -16,6 +38,7 @@ app.use(express.static('src'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', r);
+app.use('/admin', admin);
 
 function isInvalid(field, errors) {
   return Boolean(errors.find((i) => i.param === field));
@@ -24,28 +47,21 @@ function isInvalid(field, errors) {
 app.locals.isInvalid = isInvalid;
 app.locals.formatDate = formatDate;
 
-function notFoundHandler(req, res) {
-  res.status(404).render('error', { title: '', titleMessage: '404 Not Found', message: 'Þú virðist hafa villst!' });
+function notFoundHandler(error, req, res) {
+  res.status(404).render('error', { title: '', titleMessage: '404 Not Found', message: error });
 }
 
 function errorHandler(err, req, res, next) { // eslint-disable-line
-  console.error(err);
+  // console.error(err);
   const title = ' ';
   const titleMessage = 'Gat ekki skráð!';
   const message = 'Varstu búinn að skrá þig áður?';
-  res.status(500).render('error', { title, titleMessage, message });
+  res.status(500).render('error', { title, titleMessage: '', message: err });
 }
 
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-const {
-  PORT: port = 3000,
-} = process.env;
-
-// TODO setja upp rest af virkni!
-
-// Verðum að setja bara *port* svo virki á heroku
 app.listen(port, () => {
   console.info(`Server running at http://localhost:${port}/`);
 });

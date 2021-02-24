@@ -28,3 +28,17 @@
     text-align: center;
   }
 }
+
+.admin {
+  margin: $gutter auto;
+  max-width: 1000px;
+
+  &-loggedIn {
+    display: flex;
+  }
+
+  &-user {
+    font-weight: bold;
+    padding-left: 10px;
+  }
+}

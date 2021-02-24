@@ -1,0 +1,47 @@
+<div class="results">
+  <div class="results-header">
+    <h2>Undirskriftir</h2>
+    <% if (result.length > 0) { %>
+    <p>Fjöldi undirskrifta: <%= result.length %></p>
+  </div>
+  <table class="results-table">
+    <tr>
+      <th>Dags</th>
+      <th>Nafn</th>
+      <th>Athugasemd</th>
+    </tr>
+    <% result.forEach(( item ) => { %>
+    <tr>
+      <td> <%= locals.formatDate(item.signed) %></td>
+      <% if (item.anonymous) { %>
+        <td>anonymous</td>
+      <% } else   { %>
+        <td><%= item.name %></td>
+      <% } %>
+      <td><%= item.comment %></td>
+      <td>
+      <form method="post" action="/admin/delete">
+        <input type="hidden" name="id" value="<%= item.id %>">
+        <button>Eyða</button>
+      </form>
+    </td>
+    </tr>
+    <% }) %>
+  </table>
+  <% } else { %> 
+    <h3 class="results-none">Það eru engar undirskriftir</h3>
+  <% } %> 
+</div> 
+<div class="navigation">
+  <% if (page > 1) { %> 
+    <a href="<%= paging.prev.href %>">Fyrri síða</a>
+  <% } else { %> 
+    <p></p>
+  <% } %>
+  <p>Síða <%= page %> af <%= result.length/10 %> </p>
+  <% if (page < result.length/10) { %>  
+    <a href="<%= paging.next.href %>">Næsta síða</a>
+  <% } else { %>
+    <p></p>
+  <% } %> 
+</div>

@@ -1,5 +1,5 @@
-import pg from 'pg';
 import dotenv from 'dotenv';
+import pg from 'pg';
 
 dotenv.config();
 
@@ -29,7 +29,7 @@ export async function query(q, v = []) {
     const result = await client.query(q, v);
     return result.rows;
   } catch (e) {
-    throw new Error(e);  
+    throw new Error(e);
   } finally {
     client.release();
   }
@@ -46,10 +46,48 @@ VALUES
   return query(q, values);
 }
 
-export async function select() {
-  // const result = await query('SELECT * FROM test');
+export async function select(offset = 0, limit = 10) {
+  try {
+    const q = 'SELECT * FROM signatures ORDER BY id OFFSET $1 LIMIT $2';
+    const result = await query(q, [offset, limit]);
 
-  const result = await query('SELECT * FROM signatures ORDER BY id DESC');
+    return result;
+  } catch (e) {
+    console.error('Error selecting', e);
+  }
+}
 
-  return result;
+export async function deleteRow(id) {
+  const q = 'DELETE FROM signatures WHERE id = $1';
+
+  return query(q, id);
+}
+
+// Users
+export async function findById(id) {
+  const q = 'SELECT * FROM users WHERE id = $1';
+
+  try {
+    const result = await query(q, [id]);
+
+    if (result.rowCount === 1) {
+      return result.rows[0];
+    }
+  } catch (e) {
+    console.error('Gat ekki fundið notanda eftir id');
+  }
+
+  return null;
+}
+
+export async function findByUsername(username) {
+  const q = 'SELECT * FROM users WHERE username = $1';
+
+  try {
+    const result = await query(q, [username]);
+    return result[0];
+  } catch (e) {
+    console.error('Gat ekki fundið notanda eftir notendnafni');
+    return null;
+  }
 }

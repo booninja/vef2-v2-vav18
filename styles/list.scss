@@ -5,8 +5,12 @@
   margin: 0 auto;
   max-width: 1000px;
   padding: $gutter 0;
-  &-header { /* stylelint-disable-line */
+
+  h2 {
     font-size: 2.5rem;
+  }
+
+  &-header { /* stylelint-disable-line */
     margin-bottom: $gutter;
     text-align: center;
   }
@@ -33,4 +37,12 @@
       font-weight: bold;
     }
   }
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1000px;
+  padding-bottom: $gutter;
 }

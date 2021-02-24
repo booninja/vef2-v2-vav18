@@ -1,15 +1,17 @@
+/* eslint-disable no-plusplus */
 import pg from 'pg';
 import dotenv from 'dotenv';
 import { promises as fs } from 'fs';
+import { fakeSignatures } from './faker.js';
 
 async function readFileAsync(sql) {
-    try {
-      const file = await fs.readFile(sql);
-      return file;
-    } catch (e) {
-      throw new Error(e);
-    }
+  try {
+    const file = await fs.readFile(sql);
+    return file;
+  } catch (e) {
+    throw new Error(e);
   }
+}
 
 dotenv.config();
 
@@ -39,38 +41,50 @@ export async function query(q, v = []) {
     const result = await client.query(q, v);
     return result.rows;
   } catch (e) {//eslint-disable-line
-    throw e;  
+    throw e;
   } finally {
     client.release();
   }
 }
 
+async function insert(data) {
+  const q = `
+INSERT INTO signatures
+(name, nationalId, signed, comment, anonymous)
+VALUES
+($1, $2, $3, $4, $5)`;
+  return query(q, data);
+}
+
 async function main() {
-    console.info(`Set upp gagnagrunn á ${connectionString}`);
-    // droppa töflu ef til
-    await query('DROP TABLE IF EXISTS applications');
-    console.info('Töflu eytt');
-  
-    // búa til töflu út frá skema
-    try {
-      const createTable = await readFileAsync('./sql/schema.sql');
-      await query(createTable.toString('utf8'));
-      console.info('Tafla búin til');
-    } catch (e) {
-      console.error('Villa við að búa til töflu:', e.message);
-      return;
-    }
-  
-    // bæta færslum við töflu
-    try {
-      const insert = await readFileAsync('./sql/fake.sql');
-      await query(insert.toString('utf8'));
-      console.info('Gögnum bætt við');
-    } catch (e) {
-      console.error('Villa við að bæta gögnum við:', e.message);
-    }
+  console.info(`Set upp gagnagrunn á ${connectionString}`);
+  // droppa töflu ef til
+  await query('DROP TABLE IF EXISTS signatures');
+  console.info('Töflu eytt');
+
+  // búa til töflu út frá skema
+  try {
+    const createTable = await readFileAsync('./sql/schema.sql');
+    await query(createTable.toString('utf8'));
+    console.info('Tafla búin til');
+  } catch (e) {
+    console.error('Villa við að búa til töflu:', e.message);
+    return;
   }
-  
-  main().catch((err) => {
-    console.error(err);
-  });
+
+  // bæta færslum við töflu
+  try {
+    // const insert = await readFileAsync('./sql/fake.sql');
+    // await query(insert.toString('utf8'));
+    for (let i = 0; i < 500; i++) {
+      insert(fakeSignatures());
+    }
+    console.info('Gögnum bætt við');
+  } catch (e) {
+    console.error('Villa við að bæta gögnum við:', e.message);
+  }
+}
+
+main().catch((err) => {
+  console.error(err);
+});

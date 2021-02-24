@@ -35,30 +35,7 @@
     </form>
   </div>
 </div> 
-<div class="results">
-  <h2 class="results-header">Undirskriftir</h2>
-  <% if (result.length > 0) { %>
-  <table class="results-table">
-    <tr>
-      <th>Dags</th>
-      <th>Nafn</th>
-      <th>Athugasemd</th>
-    </tr>
-    <% result.forEach(( item ) => { %>
-    <tr>
-      <td> <%= locals.formatDate(item.signed) %></td>
-      <% if (item.anonymous) { %>
-        <td>anonymous</td>
-      <% } else   { %>
-        <td><%= item.name %></td>
-      <% } %>
-      <td><%= item.comment %></td>
-    </tr>
-    <% }) %>
-  </table>
-  <% } else { %> 
-    <h3 class="results-none">Það eru engar undirskriftir</h3>
-  <% } %> 
-</div> 
+
 </main>
+<%- include('signatures') -%>
 <%- include('footer') -%>

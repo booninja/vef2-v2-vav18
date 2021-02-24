@@ -2,22 +2,48 @@ import express from 'express';
 import xss from 'xss';
 import { body, validationResult } from 'express-validator';
 import { insert, select } from './db.js';
+import { catchErrors } from './utils.js';
 
 export const router = express.Router();
 
 router.use(express.urlencoded({ extended: true }));
-let result = '';
+const result = '';
 const nationalIdPattern = '^[0-9]{6}-?[0-9]{4}$';
-function catchErrors(fn) {
-  return (req, res, next) => fn(req, res, next).catch(next);
-}
 
 async function index(req, res) {
-  result = await select();
+  let { page = 1 } = req.query;
+  page = Number(page);
+
+  const PAGE_SIZE = 50;
+  const offset = (page - 1) * PAGE_SIZE;
+  const rows = await select(offset, PAGE_SIZE);
+
+  const result = {
+    _links: {
+      self: {
+        href: `/admin/?page=${page}`,
+      },
+    },
+    items: rows,
+  };
+
+  if (offset > 0) {
+    result._links.prev = {
+      href: `/admin/?page=${page - 1}`,
+    };
+  }
+
+  if (rows.length <= PAGE_SIZE) {
+    result._links.next = {
+      href: `/admin/?page=${page + 1}`,
+    };
+  }
 
   const data = {
-    result,
-    title: 'Undirskriftalisti',
+    result: rows,
+    paging: result._links,
+    page,
+    title: 'Undirskriftarlisti - umsjón',
     name: '',
     comment: '',
     nationalId: '',
