@@ -46,9 +46,9 @@ VALUES
   return query(q, values);
 }
 
-export async function select(offset = 0, limit = 10) {
+export async function select(offset = 0, limit = 50) {
   try {
-    const q = 'SELECT * FROM signatures ORDER BY id OFFSET $1 LIMIT $2';
+    const q = 'SELECT * FROM signatures ORDER BY signed DESC, id OFFSET $1 LIMIT $2 ';
     const result = await query(q, [offset, limit]);
 
     return result;
