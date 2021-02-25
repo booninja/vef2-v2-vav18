@@ -39,7 +39,7 @@ async function admin(req, res) {
     result: rows,
     paging: result._links,
     page,
-    title: 'Undirskriftarlisti - umsjón1',
+    title: 'Undirskriftarlisti - umsjón',
     name: '',
     comment: '',
     nationalId: '',

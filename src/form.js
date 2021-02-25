@@ -45,7 +45,7 @@ async function index(req, res) {
     result: rows,
     paging: result._links,
     page,
-    title: 'Undirskriftarlisti - umsjón',
+    title: 'Undirskriftarlisti',
     name: '',
     comment: '',
     nationalId: '',
