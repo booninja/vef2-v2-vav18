@@ -1,8 +1,8 @@
 <div class="results">
   <div class="results-header">
     <h2>Undirskriftir</h2>
-    <% if (result.length > 0) { %>
-    <p>Fjöldi undirskrifta: <%= result.length %></p>
+    <% if (count > 0) { %>
+    <p>Fjöldi undirskrifta: <%= count %></p>
   </div>
   <table class="results-table">
     <tr>
@@ -19,12 +19,14 @@
         <td><%= item.name %></td>
       <% } %>
       <td><%= item.comment %></td>
+      <% if (locals.user) { %>
       <td>
       <form method="post" action="/admin/delete">
         <input type="hidden" name="id" value="<%= item.id %>">
         <button>Eyða</button>
       </form>
     </td>
+    <% } %>
     </tr>
     <% }) %>
   </table>
@@ -38,8 +40,8 @@
   <% } else { %> 
     <p></p>
   <% } %>
-  <p>Síða <%= page %> af <%= result.length/10 %> </p>
-  <% if (page < result.length/10) { %>  
+  <p>Síða <%= page %> af <%= Math.round(count/50) %> </p>
+  <% if (page < count/50) { %>  
     <a href="<%= paging.next.href %>">Næsta síða</a>
   <% } else { %>
     <p></p>

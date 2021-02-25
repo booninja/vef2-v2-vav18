@@ -2,11 +2,11 @@
 <body>
     <div class="form">
         <form method="post" action="/admin/login" autocomplete="off" class="form-signup">
-            <label>
+            <label class="form-row">
                 <p>Notendanafn</p>
                 <input class="input" id="username" type="text" name="username" >
             </label>
-            <label>
+            <label class="form-row">
                 <p>Lykilorð</p>
                 <input class="input" id="password" type="password" name="password"  >
             </label>
@@ -14,6 +14,12 @@
                 <button><h2>Innskrá</h2></button>
             </div>
         </form>
+
+        <% if (message) { %>
+            <div class="errors">
+              <p><%= message %></p>
+            </div>
+          <% } %>
   
     <a href="/">Til baka</a>
     </div>

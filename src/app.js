@@ -40,6 +40,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', r);
 app.use('/admin', admin);
 
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
 function isInvalid(field, errors) {
   return Boolean(errors.find((i) => i.param === field));
 }
@@ -54,9 +59,7 @@ function notFoundHandler(error, req, res) {
 function errorHandler(err, req, res, next) { // eslint-disable-line
   // console.error(err);
   const title = ' ';
-  const titleMessage = 'Gat ekki skráð!';
-  const message = 'Varstu búinn að skrá þig áður?';
-  res.status(500).render('error', { title, titleMessage: '', message: err });
+  res.status(500).render('error', { title, titleMessage: 'Villa!', message: err });
 }
 
 app.use(notFoundHandler);

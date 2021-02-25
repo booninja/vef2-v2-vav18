@@ -1,6 +1,8 @@
 @import './config';
 
 .header {
+  display: flex;
+  justify-content: center;
   margin: $gutter auto;
   max-width: $max-width;
   text-align: center;
@@ -27,6 +29,14 @@
     margin: 0 auto;
     text-align: center;
   }
+}
+
+.login {
+  display: flex;
+  justify-content: right;
+  padding-right: $gutter;
+  position: absolute; 
+  right: 0;
 }
 
 .admin {

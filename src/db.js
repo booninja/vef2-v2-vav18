@@ -57,6 +57,17 @@ export async function select(offset = 0, limit = 10) {
   }
 }
 
+export async function selectAll(){
+  try {
+    const q = 'SELECT COUNT(*) FROM signatures';
+    const result = await query(q);
+
+    return result;
+  } catch (e) {
+    console.error('Error selecting', e);
+  }
+}
+
 export async function deleteRow(id) {
   const q = 'DELETE FROM signatures WHERE id = $1';
 
@@ -70,8 +81,8 @@ export async function findById(id) {
   try {
     const result = await query(q, [id]);
 
-    if (result.rowCount === 1) {
-      return result.rows[0];
+    if (result.length === 1) {
+      return result[0];
     }
   } catch (e) {
     console.error('Gat ekki fundið notanda eftir id');
