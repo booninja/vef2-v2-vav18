@@ -9,7 +9,7 @@ export const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
 const result = '';
 const nationalIdPattern = '^[0-9]{6}-?[0-9]{4}$';
-let  count = 0; 
+let count = 0;
 async function index(req, res) {
   let { page = 1 } = req.query;
   page = Number(page);
@@ -18,10 +18,9 @@ async function index(req, res) {
   const offset = (page - 1) * PAGE_SIZE;
   const rows = await select(offset, PAGE_SIZE);
   count = await selectAll();
-  console.log(count)
 
-  const result = {
-    _links: {
+  const paging = {
+    links: {
       self: {
         href: `/?page=${page}`,
       },
@@ -30,20 +29,20 @@ async function index(req, res) {
   };
 
   if (offset > 0) {
-    result._links.prev = {
+    paging.links.prev = {
       href: `/?page=${page - 1}`,
     };
   }
 
   if (rows.length <= PAGE_SIZE) {
-    result._links.next = {
+    paging.links.next = {
       href: `/?page=${page + 1}`,
     };
   }
-  
+
   const data = {
     result: rows,
-    paging: result._links,
+    paging: paging.links,
     page,
     title: 'Undirskriftarlisti',
     name: '',
@@ -138,7 +137,6 @@ async function postForm(req, res) {
     comment,
     nationalId,
     anonymous,
-    count
   } = req.body;
 
   if (anonymous === undefined) {

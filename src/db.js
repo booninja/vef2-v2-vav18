@@ -55,9 +55,10 @@ export async function select(offset = 0, limit = 50) {
   } catch (e) {
     console.error('Error selecting', e);
   }
+  return null;
 }
 
-export async function selectAll(){
+export async function selectAll() {
   try {
     const q = 'SELECT COUNT(*) FROM signatures';
     const result = await query(q);
@@ -66,6 +67,7 @@ export async function selectAll(){
   } catch (e) {
     console.error('Error selecting', e);
   }
+  return null;
 }
 
 export async function deleteRow(id) {

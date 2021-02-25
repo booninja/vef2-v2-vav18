@@ -5,7 +5,6 @@ export function catchErrors(fn) {
 }
 
 export async function comparePasswords(password, hash) {
-  console.log('password');
   try {
     return await bcrypt.compare(password, hash);
   } catch (e) {

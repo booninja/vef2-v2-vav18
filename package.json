@@ -1,7 +1,6 @@
 {
   "name": "vef2-2021-v1",
   "version": "1.0.0",
-  "description": "[Kynning í fyrirlestri](https://youtu.be/pCEHnurbuCU).",
   "main": "app.js",
   "dependencies": {
     "bcrypt": "^5.0.0",
